@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>MMI Narayana Health Raipur Cyclothon 2026</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    :root {
+      --nh-blue: #0754a3;
+      --nh-navy: #031a3a;
+      --nh-red: #ed1b2f;
+      --nh-sky: #29b6e8;
+      --nh-green: #41d181;
+      --white: #ffffff;
+      --soft: rgba(255,255,255,0.78);
+      --glass: rgba(255,255,255,0.13);
+      --border: rgba(255,255,255,0.22);
+      --shadow: 0 28px 90px rgba(0,0,0,0.38);
+      --font: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      color: white;
+      background:
+        linear-gradient(rgba(3, 20, 45, 0.78), rgba(3, 20, 45, 0.94)),
+        url("https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=1800&q=85");
+      background-size: cover;
+      background-position: center;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+    }
+
+    .page {
+      width: min(1040px, 100%);
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .left {
+      padding: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .brand img {
+      width: 150px;
+      max-width: 48vw;
+      background: white;
+      border-radius: 18px;
+      padding: 10px;
+      object-fit: contain;
+      box-shadow: 0 18px 46px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
+      line-height: 0.92;
+      letter-spacing: -0.075em;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #ffffff, #b9f2ff, #9dffd0);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .left p {
+      margin: 22px 0 0;
+      max-width: 560px;
+      color: var(--soft);
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    .card {
+      position: relative;
+      padding: 26px;
+      border-radius: 32px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.07)),
+        rgba(4, 25, 54, 0.76);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      right: -90px;
+      top: -90px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(41,182,232,0.42), transparent 65%);
+      pointer-events: none;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+      letter-spacing: -0.05em;
+      position: relative;
+    }
+
+    .card > p {
+      margin: 0;
+      color: var(--soft);
+      line-height: 1.55;
+      position: relative;
+    }
+
+    form {
+      margin-top: 22px;
+      display: grid;
+      gap: 14px;
+      position: relative;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.9);
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border-radius: 18px;
+      padding: 16px;
+      outline: none;
+      font: inherit;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    input:focus {
+      border-color: var(--nh-sky);
+      box-shadow: 0 0 0 4px rgba(41,182,232,0.15);
+    }
+
+    button {
+      border: none;
+      border-radius: 18px;
+      padding: 16px 18px;
+      font: inherit;
+      font-weight: 950;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--nh-sky), var(--nh-green));
+      color: #031428;
+      box-shadow: 0 18px 42px rgba(41,182,232,0.26);
+    }
+
+    button:disabled {
+      opacity: 0.68;
+      cursor: not-allowed;
+    }
+
+    .note {
+      margin-top: 12px;
+      color: rgba(255,255,255,0.58);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      position: relative;
+    }
+
+    .status {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      position: relative;
+    }
+
+    .status.success {
+      display: block;
+      background: rgba(65,209,129,0.16);
+      border: 1px solid rgba(65,209,129,0.36);
+      color: #dcffee;
+    }
+
+    .status.error {
+      display: block;
+      background: rgba(237,27,47,0.16);
+      border: 1px solid rgba(237,27,47,0.36);
+      color: #ffe2e6;
+    }
+
+    .pass-section {
+      display: none;
+      margin-top: 22px;
+      animation: reveal 0.55s ease both;
+      position: relative;
+    }
+
+    .pass-section.show {
+      display: block;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .celebration {
+      padding: 15px;
+      margin-bottom: 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(65,209,129,0.2), rgba(41,182,232,0.15));
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .celebration strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+
+    .celebration span {
+      display: block;
+      color: var(--soft);
+      margin-top: 4px;
+      font-size: 0.9rem;
+    }
+
+    .epass {
+      max-width: 450px;
+      margin: 0 auto;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.24);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(41,182,232,0.32), transparent 34%),
+        radial-gradient(circle at 88% 12%, rgba(65,209,129,0.26), transparent 32%),
+        linear-gradient(145deg, #0754a3, #041936 62%, #031022);
+      box-shadow: 0 28px 80px rgba(0,0,0,0.35);
+    }
+
+    .epass-header {
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .epass-logo {
+      width: 150px;
+      max-width: 58%;
+      background: white;
+      border-radius: 14px;
+      padding: 8px;
+      object-fit: contain;
+    }
+
+    .epass-tag {
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--nh-green), var(--nh-sky));
+      color: #031428;
+      font-size: 0.72rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .epass-body {
+      padding: 20px;
+    }
+
+    .epass-title {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 0.96;
+      letter-spacing: -0.065em;
+    }
+
+    .epass-subtitle {
+      margin-top: 9px;
+      color: #b8f0ff;
+      font-weight: 850;
+    }
+
+    .box {
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.13);
+    }
+
+    .label {
+      display: block;
+      color: rgba(255,255,255,0.62);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-weight: 950;
+    }
+
+    .box strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 1.2rem;
+      word-break: break-word;
+    }
+
+    .pass-grid {
+      display: grid;
+      grid-template-columns: 1fr 118px;
+      gap: 14px;
+      margin-top: 14px;
+      align-items: start;
+    }
+
+    .details {
+      display: grid;
+      gap: 9px;
+    }
+
+    .detail {
+      padding: 11px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .detail strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.86rem;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    .qr-box {
+      display: grid;
+      place-items: center;
+      padding: 10px;
+      border-radius: 18px;
+      background: white;
+    }
+
+    .qr-box canvas {
+      width: 96px !important;
+      height: 96px !important;
+    }
+
+    .venue {
+      margin-top: 14px;
+      padding: 13px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.13);
+      color: rgba(255,255,255,0.84);
+      font-size: 0.74rem;
+      line-height: 1.46;
+      word-break: break-word;
+    }
+
+    .pass-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .map-link {
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      padding: 14px 12px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 950;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .left {
+        padding: 8px 4px 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 14px;
+      }
+
+      .card {
+        padding: 20px;
+        border-radius: 26px;
+      }
+
+      h1 {
+        font-size: 3.1rem;
+      }
+
+      .brand img {
+        width: 132px;
+      }
+
+      .pass-grid,
+      .pass-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .qr-box {
+        width: 132px;
+      }
+
+      .epass-logo {
+        width: 132px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="left">
+      <div class="brand">
+        <img src="nh-logo.png" alt="Narayana Health MMI Logo" />
+      </div>
+
+      <h1>
+        Ride for<br />
+        <span>Health.</span>
+      </h1>
+
+      <p>
+        Register for the MMI Narayana Health Raipur Cyclothon 2026 and instantly download your official E-Pass.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Generate E-Pass</h2>
+      <p>Enter your name and WhatsApp number.</p>
+
+      <form id="registrationForm">
+        <label>
+          Full Name
+          <input id="fullName" type="text" placeholder="Enter your name" required />
+        </label>
+
+        <label>
+          WhatsApp Number
+          <input id="whatsapp" type="tel" placeholder="Enter 10-digit WhatsApp number" required />
+        </label>
+
+        <button id="submitBtn" type="submit">Generate My E-Pass</button>
+      </form>
+
+      <div class="note">
+        Your registration will be saved for event-day check-in and participant management.
+      </div>
+
+      <div id="statusBox" class="status"></div>
+
+      <div id="passSection" class="pass-section">
+        <div class="celebration">
+          <strong>Congratulations! Your E-Pass is ready.</strong>
+          <span>Download it and carry it on event day.</span>
+        </div>
+
+        <div id="epassCard" class="epass">
+          <div class="epass-header">
+            <img class="epass-logo" src="nh-logo.png" alt="Narayana Health MMI Logo" />
+            <div class="epass-tag">E-PASS</div>
+          </div>
+
+          <div class="epass-body">
+            <h3 class="epass-title">Cyclothon<br />2026</h3>
+            <div class="epass-subtitle">Official Participant Pass</div>
+
+            <div class="box">
+              <span class="label">Participant Name</span>
+              <strong id="passName">Participant Name</strong>
+            </div>
+
+            <div class="pass-grid">
+              <div class="details">
+                <div class="detail">
+                  <span class="label">Pass ID</span>
+                  <strong id="passId">CYC26-XXXX</strong>
+                </div>
+
+                <div class="detail">
+                  <span class="label">WhatsApp</span>
+                  <strong id="passPhone">0000000000</strong>
+                </div>
+
+                <div class="detail">
+                  <span class="label">Event</span>
+                  <strong>Cyclothon 2026</strong>
+                </div>
+              </div>
+
+              <div class="qr-box">
+                <canvas id="passQr"></canvas>
+              </div>
+            </div>
+
+            <div class="venue">
+              <strong>Venue:</strong> MMI Narayana Multispeciality Hospital, Raipur<br />
+              <strong>Address:</strong> New Dhamtari Road, Lalpur, Near Pachpedi Naka, Raipur, Chhattisgarh - 492001<br />
+              <strong>Google Maps:</strong> https://www.google.com/maps/search/?api=1&query=MMI%20Narayana%20Multispeciality%20Hospital%20Raipur
+            </div>
+          </div>
+        </div>
+
+        <div class="pass-actions">
+          <button id="downloadBtn" type="button">Download E-Pass</button>
+          <a
+            class="map-link"
+            href="https://www.google.com/maps/search/?api=1&query=MMI%20Narayana%20Multispeciality%20Hospital%20Raipur"
+            target="_blank"
+            rel="noopener"
+          >
+            Open Google Maps
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      where,
+      limit,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8SiOquv5lbmYKgWtKK3pCbH9j7wXWZ0Y",
+      authDomain: "mmi-nh-raipur-cyclothon-2026.firebaseapp.com",
+      projectId: "mmi-nh-raipur-cyclothon-2026",
+      storageBucket: "mmi-nh-raipur-cyclothon-2026.firebasestorage.app",
+      messagingSenderId: "446757535027",
+      appId: "1:446757535027:web:e9691e9fcb165be2e45246"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const EVENT = {
+      name: "MMI Narayana Health Raipur Cyclothon 2026",
+      dateLabel: "Cyclothon 2026",
+      venue: "MMI Narayana Multispeciality Hospital, Raipur",
+      address: "New Dhamtari Road, Lalpur, Near Pachpedi Naka, Raipur, Chhattisgarh - 492001",
+      mapsLink: "https://www.google.com/maps/search/?api=1&query=MMI%20Narayana%20Multispeciality%20Hospital%20Raipur"
+    };
+
+    const registrationForm = document.getElementById("registrationForm");
+    const fullNameInput = document.getElementById("fullName");
+    const whatsappInput = document.getElementById("whatsapp");
+    const submitBtn = document.getElementById("submitBtn");
+    const statusBox = document.getElementById("statusBox");
+    const passSection = document.getElementById("passSection");
+    const passName = document.getElementById("passName");
+    const passPhone = document.getElementById("passPhone");
+    const passId = document.getElementById("passId");
+    const passQr = document.getElementById("passQr");
+    const downloadBtn = document.getElementById("downloadBtn");
+
+    let currentPassData = null;
+
+    function showStatus(message, type) {
+      statusBox.textContent = message;
+      statusBox.className = `status ${type}`;
+    }
+
+    function clearStatus() {
+      statusBox.textContent = "";
+      statusBox.className = "status";
+    }
+
+    function normalizeWhatsApp(input) {
+      const digits = input.replace(/\D/g, "");
+
+      if (digits.length === 12 && digits.startsWith("91")) {
+        return digits.slice(2);
+      }
+
+      if (digits.length === 11 && digits.startsWith("0")) {
+        return digits.slice(1);
+      }
+
+      return digits;
+    }
+
+    function isValidIndianMobile(number) {
+      return /^[6-9]\d{9}$/.test(number);
+    }
+
+    function generatePassId() {
+      const randomArray = new Uint32Array(1);
+      window.crypto.getRandomValues(randomArray);
+
+      const timePart = Date.now().toString(36).toUpperCase().slice(-6);
+      const randomPart = randomArray[0].toString(36).toUpperCase().slice(0, 5);
+
+      return `CYC26-${timePart}-${randomPart}`;
+    }
+
+    function buildQrPayload(data) {
+      const pageBase = window.location.origin + window.location.pathname;
+      return `${pageBase}?passId=${encodeURIComponent(data.passId)}`;
+    }
+
+    async function findExistingRegistration(whatsapp) {
+      const registrationRef = collection(db, "cyclothonRegistrations");
+      const duplicateQuery = query(
+        registrationRef,
+        where("whatsapp", "==", whatsapp),
+        limit(1)
+      );
+
+      const snapshot = await getDocs(duplicateQuery);
+
+      if (snapshot.empty) {
+        return null;
+      }
+
+      const docSnap = snapshot.docs[0];
+
+      return {
+        firebaseDocId: docSnap.id,
+        ...docSnap.data()
+      };
+    }
+
+    async function saveRegistration(name, whatsapp) {
+      const existing = await findExistingRegistration(whatsapp);
+
+      if (existing) {
+        return {
+          ...existing,
+          name: existing.name || name,
+          whatsapp,
+          isExisting: true
+        };
+      }
+
+      const registrationData = {
+        eventName: EVENT.name,
+        eventDateLabel: EVENT.dateLabel,
+        eventVenue: EVENT.venue,
+        eventAddress: EVENT.address,
+        googleMapsLink: EVENT.mapsLink,
+
+        name,
+        whatsapp,
+        passId: generatePassId(),
+
+        registrationStatus: "registered",
+        checkInStatus: "not_checked_in",
+        source: "public_github_pages_registration",
+
+        createdAt: serverTimestamp(),
+        createdAtLocal: new Date().toISOString(),
+        userAgent: navigator.userAgent
+      };
+
+      const docRef = await addDoc(collection(db, "cyclothonRegistrations"), registrationData);
+
+      return {
+        firebaseDocId: docRef.id,
+        ...registrationData,
+        isExisting: false
+      };
+    }
+
+    function renderPass(data) {
+      currentPassData = data;
+
+      passName.textContent = data.name;
+      passPhone.textContent = data.whatsapp;
+      passId.textContent = data.passId;
+
+      new QRious({
+        element: passQr,
+        value: buildQrPayload(data),
+        size: 220,
+        background: "white",
+        foreground: "#041936",
+        level: "H"
+      });
+
+      passSection.classList.add("show");
+      passSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    registrationForm.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      clearStatus();
+
+      const name = fullNameInput.value.trim().replace(/\s+/g, " ");
+      const whatsapp = normalizeWhatsApp(whatsappInput.value);
+
+      if (name.length < 2) {
+        showStatus("Please enter a valid name.", "error");
+        fullNameInput.focus();
+        return;
+      }
+
+      if (!isValidIndianMobile(whatsapp)) {
+        showStatus("Please enter a valid 10-digit Indian WhatsApp number.", "error");
+        whatsappInput.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Generating...";
+
+      try {
+        const savedData = await saveRegistration(name, whatsapp);
+        renderPass(savedData);
+
+        if (savedData.isExisting) {
+          showStatus("This WhatsApp number was already registered. Existing E-Pass shown again.", "success");
+        } else {
+          showStatus("Registration successful. Your E-Pass is ready.", "success");
+        }
+      } catch (error) {
+        console.error(error);
+        showStatus("Registration could not be saved. Please check Firestore setup and rules.", "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Generate My E-Pass";
+      }
+    });
+
+    downloadBtn.addEventListener("click", async function() {
+      if (!currentPassData) {
+        showStatus("Please generate an E-Pass first.", "error");
+        return;
+      }
+
+      downloadBtn.disabled = true;
+      downloadBtn.textContent = "Preparing...";
+
+      try {
+        const epassCard = document.getElementById("epassCard");
+
+        const canvas = await html2canvas(epassCard, {
+          scale: 3,
+          backgroundColor: null,
+          useCORS: true
+        });
+
+        const cleanName = currentPassData.name
+          .replace(/[^a-z0-9]/gi, "_")
+          .replace(/_+/g, "_")
+          .toLowerCase();
+
+        const link = document.createElement("a");
+        link.download = `cyclothon_2026_epass_${cleanName}_${currentPassData.passId}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      } catch (error) {
+        console.error(error);
+        showStatus("Could not download the E-Pass. Please try again.", "error");
+      } finally {
+        downloadBtn.disabled = false;
+        downloadBtn.textContent = "Download E-Pass";
+      }
+    });
+  </script>
+</body>
+</html>
